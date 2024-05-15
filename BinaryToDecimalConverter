@@ -1,0 +1,65 @@
+using System;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text.Json.Serialization;
+using System.Xml;
+
+namespace ConsoleApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input;
+            Console.Write("enter up to 8 binary digits: ");
+            input = Console.ReadLine();
+
+            char[] characterArray = input.ToCharArray();
+
+            if (characterArray.Length > 8){
+                Console.WriteLine("Too many digits");
+                Environment.Exit(1);
+
+            }
+            else if (characterArray == null || characterArray.Length == 0){
+                Console.WriteLine("User must enter at least one digit");
+                Environment.Exit(1);
+
+            }
+
+            int i = 0;
+            int[] numbers = new int[characterArray.Length];
+            foreach (char item in characterArray){
+                if (item != '0' && item != '1'){
+                    Console.WriteLine("Please enter only 0s or 1s");
+                    Environment.Exit(1);
+                }
+            }
+
+            foreach (var num in characterArray){
+                numbers[i] = characterArray[i] - '0';
+                i++;
+            }
+            double total = ConvertToDecimal(numbers);
+            Console.WriteLine(total);
+
+
+        }
+        static double ConvertToDecimal(int[] array)
+        {
+            int exponent = 0;
+            int i = 0;
+            double total = 0;
+            int length = array.Length;
+        
+            foreach (var num in array){
+                total += Math.Pow(2, length - i) * array[i] / 2;
+                i++;
+            }
+
+            return total;
+        }
+    }
+    
+    
+}
